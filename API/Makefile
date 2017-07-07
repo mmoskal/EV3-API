@@ -17,6 +17,15 @@ obj/%.o: %.c $(wildcard *.h)
 #RM = del /Q
 #endif
 
-.PHONY: clean
+.PHONY: clean npm
 clean:
 	$(RM) objs/*.o *.a *.d
+
+npm: libev3api.a
+	rm -rf npm
+	mkdir npm npm/lib npm/include
+	cp package.json ../README.md ../commands.pdf npm
+	cp *.h npm/include
+	cp *.a npm/lib
+	cd npm; npm pack
+
