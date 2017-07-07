@@ -744,6 +744,7 @@ bool LcdScroll(short Y)
       memmove(&(LCDInstance.pLcd[LCD_BYTE_WIDTH * Y]),LCDInstance.pLcd,(LCD_HEIGHT - Y) * LCD_BYTE_WIDTH);
       memset(LCDInstance.pLcd,0,LCD_BYTE_WIDTH * Y);
     }
+    LCDInstance.Dirty = true;
     return true;
   }
   return false;
