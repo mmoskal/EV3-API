@@ -1,16 +1,17 @@
 ## Copyright (c) 2015 Ahmad Fatoum
-override PREFIX = C:/CSLite/bin/arm-none-linux-gnueabi-
+override PREFIX = arm-linux-gnueabi-
 CC = $(PREFIX)gcc
 AR = $(PREFIX)ar
 SRCS = $(wildcard *.c)
-OBJS = $(patsubst %.c,%.o,$(SRCS))
+OBJS = $(addprefix obj/,$(patsubst %.c,%.o,$(SRCS)))
 
 .DEFAULT: libev3api.a
 libev3api.a: $(OBJS)
 	$(AR) rcs $@ $^
 	
-%.o: %.c
-	$(CC) -Os -isystem. -c $<
+obj/%.o: %.c $(wildcard *.h)
+	@mkdir -p obj
+	$(CC) -mthumb -ffunction-sections -fdata-sections -Os -isystem. -c $< -o $@
 
 #ifeq ($(OS),Windows_NT)
 #RM = del /Q
@@ -18,4 +19,4 @@ libev3api.a: $(OBJS)
 
 .PHONY: clean
 clean:
-	$(RM) *.o *.a *.d
+	$(RM) objs/*.o *.a *.d
