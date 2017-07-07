@@ -347,13 +347,13 @@ void LcdCloseDevices()
   }
 }
 
-bool LcdInit()
+bool LcdInitNoAutoRefresh()
 {
   int i;
   byte * pTmp;
   if (LcdInitialized()) return true;
 
-  LCDInstance.autoRefresh = true;
+  LCDInstance.autoRefresh = false;
   LCDInstance.Dirty = false;
   LCDInstance.pFB0 = NULL;
   LCDInstance.DispFile = -1;
@@ -375,16 +375,26 @@ bool LcdInit()
       LCDInstance.pFB0 = pTmp;
 //      LCDInstance.font := @(font_data[0]);
       LCDInstance.pLcd = LCDInstance.displayBuf;
+ 
+      return true;
+    }
+  }
+}
+
+bool LcdInit()
+{
+  if (LcdInitialized()) return true;
+  if (LcdInitNoAutoRefresh()) {
+      LCDInstance.autoRefresh = true;
       
       // initialize timer system
       TimerInit();
       
       // register update handler with timer system
       SetTimerCallback(ti250ms, &LcdUpdateHandler);
-
       return true;
-    }
   }
+  return false;
 }
 
 bool LcdOpen()

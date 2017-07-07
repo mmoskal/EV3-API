@@ -113,10 +113,15 @@ typedef enum {
 */
 
 bool LcdInit();
+bool LcdInitNoAutoRefresh();
 bool LcdOpen();
 bool LcdClose();
 bool LcdExit();
 bool LcdInitialized();
+
+void DisplaySetPixel(byte X, byte Y);
+void DisplayClrPixel(byte X, byte Y);
+void DisplayXorPixel(byte X, byte Y);
 
 void LcdRefresh();
 void LcdSetAutoRefresh(bool bOn);
