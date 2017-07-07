@@ -4,4 +4,4 @@ Thumbs.db
 *.tgz
 *.a
 API/npm
-
+.vscode/
